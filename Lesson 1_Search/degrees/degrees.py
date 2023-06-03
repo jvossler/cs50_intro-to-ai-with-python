@@ -53,6 +53,7 @@ def load_data(directory):
 
 
 def main():
+    print("Starting main function...")
     if len(sys.argv) > 2:
         sys.exit("Usage: python degrees.py [directory]")
     directory = sys.argv[1] if len(sys.argv) == 2 else "large"
