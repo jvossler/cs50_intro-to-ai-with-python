@@ -6,12 +6,13 @@ from util import Node, StackFrontier, QueueFrontier
 # Maps names to a set of corresponding person_ids
 names = {}
 
-# Maps person_ids to a dictionary of: name, birth, movies (a set of movie_ids)
+# Maps person_ids to a dictionary of: 
+# name, birth, movies (a set of movie_ids)
 people = {}
 
-# Maps movie_ids to a dictionary of: title, year, stars (a set of person_ids)
+# Maps movie_ids to a dictionary of: 
+# title, year, stars (a set of person_ids)
 movies = {}
-
 
 def load_data(directory):
     """
@@ -84,7 +85,6 @@ def main():
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
-
 def shortest_path(source, target):
     """
     Returns the shortest list of (movie_id, person_id) pairs
@@ -94,8 +94,45 @@ def shortest_path(source, target):
     """
 
     # TODO
-    raise NotImplementedError
+    # raise NotImplementedError
 
+    # Create a starting node
+    start = Node(state=source, parent=None, action=None)
+
+    # Initialize the frontier using a queue
+    frontier = QueueFrontier()
+    frontier.add(start)
+
+    # Initialize an empty explored set
+    explored = set()
+
+    # Keep looping until the frontier is empty
+    while not frontier.empty():
+        # Remove a node from the frontier
+        node = frontier.remove()
+
+        # Mark the node as explored
+        explored.add(node.state)
+
+        # Check if the node is the target
+        if node.state == target:
+            # Create a list to store the path
+            path = []
+            while node.parent is not None:
+                path.append((node.action, node.state))
+                node = node.parent
+            path.reverse()
+            return path
+
+        # Add neighbors to the frontier
+        neighbors = neighbors_for_person(node.state)
+        for movie_id, person_id in neighbors:
+            if not frontier.contains_state(person_id) and person_id not in explored:
+                child = Node(state=person_id, parent=node, action=movie_id)
+                frontier.add(child)
+
+    # No path found
+    return None
 
 def person_id_for_name(name):
     """
