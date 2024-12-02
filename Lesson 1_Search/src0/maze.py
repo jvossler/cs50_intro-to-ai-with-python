@@ -207,8 +207,8 @@ class Maze():
 
                 # Draw cell
                 draw.rectangle(
-                    ([(j * cell_size + cell_border, i * cell_size + cell_border),
-                      ((j + 1) * cell_size - cell_border, (i + 1) * cell_size - cell_border)]),
+                    ((j * cell_size + cell_border, i * cell_size + cell_border),
+                        ((j + 1) * cell_size - cell_border, (i + 1) * cell_size - cell_border)),
                     fill=fill
                 )
 
